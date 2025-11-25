@@ -4,15 +4,15 @@ EXPOSE 10000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["HProg_Render.csproj", "./"]
-RUN dotnet restore "HProg_Render.csproj"
+COPY ["API_Render.csproj", "./"]
+RUN dotnet restore "API_Render.csproj"
 COPY . .
-RUN dotnet build "HProg_Render.csproj" -c Release -o /app/build
+RUN dotnet build "API_Render.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "HProg_Render.csproj" -c Release -o /app/publish
+RUN dotnet publish "API_Render.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "HProg_Render.dll"] 
+ENTRYPOINT ["dotnet", "HProg_Render.dll"]
